@@ -1,0 +1,25 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: auth_route
+          uri: http://localhost:8081
+          predicates:
+            - Path=/v1/auth/**
+        - id: game-route
+          uri: http://localhost:8080
+          predicates:
+            - Path=/games/**
+          filters:
+            - name: AuthenticationFilter
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    gateway:
+      enabled: true
+server:
+  port: 8082
